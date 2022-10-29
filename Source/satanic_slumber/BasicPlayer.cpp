@@ -2,6 +2,7 @@
 
 
 #include "BasicPlayer.h"
+#include "Math/UnrealMathUtility.h"
 
 // Sets default values
 ABasicPlayer::ABasicPlayer()
@@ -16,19 +17,61 @@ void ABasicPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	InputAxis = FVector(0, 0, 0);
+	MouseInput = FVector(0, 0, 0);
 }
 
 // Called every frame
 void ABasicPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	AddActorLocalRotation(FRotator(0.0f, 3.0f, 0.0f));
+	// AddActorLocalRotation(FRotator(0.0f, 3.0f, 0.0f));
 }
 
 // Called to bind functionality to input
 void ABasicPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	check(InputComponent);
 
+	InputComponent->BindAxis("HorizontalAxis", this, &ABasicPlayer::HorizontalAxis);
+	InputComponent->BindAxis("VerticalAxis", this, &ABasicPlayer::VerticalAxis);
+
+	InputComponent->BindAxis("MouseYaw", this, &ABasicPlayer::MouseYaw);
+	InputComponent->BindAxis("MousePitch", this, &ABasicPlayer::MousePitch);
+
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ABasicPlayer::StartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ABasicPlayer::StopJump);
 }
 
+void ABasicPlayer::StartJump()
+{
+	bPressedJump = true;
+}
+void ABasicPlayer::StopJump()
+{
+	bPressedJump = false;
+}
+
+void ABasicPlayer::MousePitch(float AxisValue)
+{
+	AddControllerPitchInput(AxisValue);
+}
+
+void ABasicPlayer::MouseYaw(float AxisValue)
+{
+	AddControllerYawInput(AxisValue);
+}
+
+//The input functions are automatically called every frame
+//Get the horizontal input (AD) and apply it 
+void ABasicPlayer::HorizontalAxis(float AxisValue) 
+{
+	AddMovementInput(GetActorRightVector(), AxisValue);
+}
+
+//Get the vertical input (WS) and apply it
+void ABasicPlayer::VerticalAxis(float AxisValue) 
+{
+	AddMovementInput(GetActorRotation().Vector(), AxisValue);
+}

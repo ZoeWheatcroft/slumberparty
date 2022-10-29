@@ -18,6 +18,14 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void HorizontalAxis(float AxisValue);
+	void VerticalAxis(float AxisValue);
+	void MousePitch(float AxisValue);
+	void MouseYaw(float AxisValue);
+	void StartJump();
+	void StopJump();
+	FVector InputAxis;
+	FVector MouseInput;
 
 public:	
 	// Called every frame
@@ -25,5 +33,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };
