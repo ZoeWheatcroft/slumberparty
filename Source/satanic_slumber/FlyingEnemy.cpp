@@ -48,9 +48,12 @@ void AFlyingEnemy::ShootPlayer() {
 
 	FTransform SpawnLocation;
 
-	AFloaterProjectile* proj = GetWorld()->SpawnActor<AFloaterProjectile>();
-
-	proj->SetActorLocation(GetActorLocation());
+	//AFloaterProjectile* proj = 
+	AActor* proj = GetWorld()->SpawnActor<AActor>(ActorToSpawn, GetActorTransform());
+	FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	FVector direction = player_pos - GetActorLocation();
+	proj->SetActorRelativeRotation(direction.Rotation());
+	//proj->SetActorLocation(GetActorLocation());
 	
 
 }
@@ -83,7 +86,13 @@ void AFlyingEnemy::UpdateAIState() {
 
 	if (dist < 500) {
 		MoveToPlayer();
-		ShootPlayer();
+		if (!started_shooting) {
+			FTimerHandle ShootingTimeManager;
+			//srand(time(NULL));
+			GetWorldTimerManager().SetTimer(ShootingTimeManager, this, &AFlyingEnemy::ShootPlayer, 1.0f + 6.5f * ((float)(rand()%10))*0.01f, true, 1.0f + rand()%10);
+			started_shooting = true;
+		}
+		
 	}
 	else {
 		IdleMove();

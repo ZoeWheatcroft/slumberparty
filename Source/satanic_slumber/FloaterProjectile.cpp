@@ -14,11 +14,11 @@ AFloaterProjectile::AFloaterProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 	SphereMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Sphere Mesh Component"));
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("/Engine/BasicShapes/Sphere"));
-	SphereMeshComponent->SetStaticMesh(MeshObj.Object);
+	//SphereMeshComponent->SetStaticMesh(MeshObj.Object);
 
 	
 
-	RootComponent = SphereMeshComponent;
+	//RootComponent = SphereMeshComponent;
 	
 
 }

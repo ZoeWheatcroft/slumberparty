@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "FloaterProjectile.h"
+#include "GenericPlatform/GenericPlatformMath.h"
 #include "FlyingEnemy.generated.h"
 
 UCLASS()
@@ -29,8 +30,13 @@ protected:
 
 public:	
 
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AActor>ActorToSpawn;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		int32 ai_state = 0;
+
+	bool started_shooting = false;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		int32 distance_to_player = 0;
