@@ -2,9 +2,7 @@
 
 
 #include "FloaterProjectile.h"
-#include "Components/SphereComponent.h"
-#include "Components/SceneComponent.h"
-#include "Components/StaticMeshComponent.h"
+
 //#include "Components/FloaterProjectileComponent.h"
 
 FVector direction;
@@ -17,6 +15,9 @@ AFloaterProjectile::AFloaterProjectile()
 	SphereMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Sphere Mesh Component"));
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("/Engine/BasicShapes/Sphere"));
 	SphereMeshComponent->SetStaticMesh(MeshObj.Object);
+
+	
+
 	RootComponent = SphereMeshComponent;
 	
 

@@ -4,6 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/SphereComponent.h"
+#include "Components/SceneComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+
 #include "FloaterProjectile.generated.h"
 
 UCLASS()
@@ -13,6 +18,9 @@ class SATANIC_SLUMBER_API AFloaterProjectile : public AActor
 
 	UPROPERTY()
 	class UStaticMeshComponent* SphereMeshComponent;
+
+	UPROPERTY()
+		class UProjectileMovementComponent* ProjMovementComponent;
 	
 public:	
 	// Sets default values for this actor's properties
