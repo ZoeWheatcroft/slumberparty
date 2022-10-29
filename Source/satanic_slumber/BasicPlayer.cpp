@@ -39,16 +39,28 @@ void ABasicPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	InputComponent->BindAxis("MouseYaw", this, &ABasicPlayer::MouseYaw);
 	InputComponent->BindAxis("MousePitch", this, &ABasicPlayer::MousePitch);
+
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ABasicPlayer::StartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ABasicPlayer::StopJump);
+}
+
+void ABasicPlayer::StartJump()
+{
+	bPressedJump = true;
+}
+void ABasicPlayer::StopJump()
+{
+	bPressedJump = false;
 }
 
 void ABasicPlayer::MousePitch(float AxisValue)
 {
-	AddActorLocalRotation(FRotator(AxisValue, 0, 0));
+	AddControllerPitchInput(AxisValue);
 }
 
 void ABasicPlayer::MouseYaw(float AxisValue)
 {
-	AddActorLocalRotation(FRotator(0, AxisValue, 0));
+	AddControllerYawInput(AxisValue);
 }
 
 //The input functions are automatically called every frame

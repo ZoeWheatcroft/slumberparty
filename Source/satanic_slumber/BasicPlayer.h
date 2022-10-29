@@ -22,6 +22,8 @@ protected:
 	void VerticalAxis(float AxisValue);
 	void MousePitch(float AxisValue);
 	void MouseYaw(float AxisValue);
+	void StartJump();
+	void StopJump();
 	FVector InputAxis;
 	FVector MouseInput;
 
