@@ -2,6 +2,9 @@
 
 
 #include "FlyingEnemy.h"
+#include "Math/Vector.h"
+#include "FloaterProjectile.h"
+#include "Kismet/KismetMathLibrary.h"
 
 float FLY_HEIGHT = 200.0f;
 float FLY_OFFSET = 50.0f;
@@ -25,27 +28,66 @@ void AFlyingEnemy::Fly() {
 	SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, FLY_HEIGHT));
 }
 
-void GetDistanceToPlayer() {
+float AFlyingEnemy::GetDistanceToPlayer() {
+	//FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	//FVector enemy_pos = GetActorLocation();
 
+	//FVector vector_distance = enemy_pos - player_pos;
+	//float distance = vector_distance.Size();
+
+	return 0.0f;
 }
 
-void UpdateAIState() {
+void AFlyingEnemy::BackUp() {
 
 }
 
 void AFlyingEnemy::ShootPlayer() {
+	//FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	//FVector direction = player_pos - GetActorLocation();
+
+	FTransform SpawnLocation;
+
+	AFloaterProjectile* proj = GetWorld()->SpawnActor<AFloaterProjectile>();
+
+	proj->SetActorLocation(GetActorLocation());
+	
 
 }
 
 void AFlyingEnemy::IdleMove() {
 
-
+	AddActorLocalRotation(FRotator(0.0f, 1.0f, 0.0f));
+	AddMovementInput(GetActorForwardVector(), 1.0f);
 
 }
 
 void AFlyingEnemy::MoveToPlayer() {
+	//ai state should be 1
+	//get the locations so we know where to move
+	FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	FVector direction = player_pos - GetActorLocation();
 
+	//look at the player so it doesnt look fucked up 
+	SetActorRotation(direction.Rotation());
+	//go torwards player
+	//suppose i could do just add mov inp actor get forward vector
+	//but eh
+	AddMovementInput(direction, 0.1f);
 
+	//AddActorLocalRotation(FRotator(0, 0.5f, 0));
+}
+
+void AFlyingEnemy::UpdateAIState() {
+	float dist = GetDistanceToPlayer();
+
+	if (dist < 500) {
+		MoveToPlayer();
+		ShootPlayer();
+	}
+	else {
+		IdleMove();
+	}
 }
 
 // Called every frame
@@ -53,8 +95,7 @@ void AFlyingEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	AddActorLocalRotation(FRotator(0.0f, 1.0f, 0.0f));
-	AddMovementInput(GetActorRightVector(), 1.0f);
+	UpdateAIState();
 
 	//AddMovementInput(GetActorRotation().Vector(), 2.0f);
 	//AddActorLocalRotation(FRotator(0.0f, 3.0f, 0.0f));
@@ -65,6 +106,10 @@ void AFlyingEnemy::Tick(float DeltaTime)
 	//unless dead
 	//REMEMBER TO DO A DEAD CHECK ON THE FLIGHT
 	//Fly();
+	
+	//GetOwner()->Char = GetVelocity() * 0.3f;
+	//GetOwner()->GetComponentByClass(<UPrimitiveComponent>());
+	//((UPrimitiveComponent*)GetOwner()->GetComponentByClass(UPrimitiveComponent()))->SetPhysicsLinearVelocity(GetVelocity(), false, "None");
 }
 
 // Called to bind functionality to input
