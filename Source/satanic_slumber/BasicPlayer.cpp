@@ -39,7 +39,7 @@ ABasicPlayer::ABasicPlayer()
 	projectileSpawnPoint = CreateDefaultSubobject<USphereComponent>(TEXT("Projectile Spwn Pnt"));
 	projectileSpawnPoint->SetupAttachment(viewModels);
 
-	projectileSpawnPoint->SetRelativeLocation(FVector(-124.63, 486.54, 1157.0f));
+	projectileSpawnPoint->SetRelativeLocation(FVector(-124.63, 486.54, 0));
 	
 	//projectileSpawnPoint->SetHiddenInGame();
 
