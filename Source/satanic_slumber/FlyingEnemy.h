@@ -30,6 +30,9 @@ protected:
 
 public:	
 
+	UPROPERTY(BlueprintReadWrite)
+		bool attacking;
+
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<AActor>ActorToSpawn;
 
