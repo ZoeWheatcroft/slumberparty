@@ -126,3 +126,13 @@ void ABasicPlayer::OnFire() {
 	proj->SetActorRelativeRotation(direction.Rotation());
 
 }
+
+void ABasicPlayer::DamagePlayer() {
+
+	health -= 1;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("HITTTTTTTTTTTTT"));
+	if (health <= 0) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("DIEDDDDDDDDDDDD"));
+	}
+
+}

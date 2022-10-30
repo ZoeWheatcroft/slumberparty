@@ -19,7 +19,34 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void Move();
+	void PopUp();
+	void SpawnSpike(float DeltaTime);
+
+	FVector direction;
+
+	//are we moving or popping
+	bool moving = true;
+
+	//how long we've been moving for 
+	float moveClock = 0.0f;
+	//how long we're going to move
+	float moveDuration = 10.0f;
+
+	//how long been popping
+	float popClock = 0.0f;
+	//how long will pop for
+	float popDuration = 5.0f;
+
+	float spikeClock;
+	float spikeInterval;
+
 public:	
+
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AActor>SpikeActor;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

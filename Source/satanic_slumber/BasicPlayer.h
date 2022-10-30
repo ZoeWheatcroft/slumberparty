@@ -20,6 +20,8 @@ public:
 	// Sets default values for this character's properties
 	ABasicPlayer();
 
+	int health = 5;
+
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<AActor>ActorToSpawn;
 
@@ -39,6 +41,10 @@ public:
 	const float cameraHeight = 150.0f;
 
 protected:
+
+	UFUNCTION(BlueprintCallable)
+		void DamagePlayer();
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void HorizontalAxis(float AxisValue);
