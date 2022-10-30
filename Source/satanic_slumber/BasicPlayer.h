@@ -46,7 +46,6 @@ public:
 protected:
 
 	UFUNCTION(BlueprintCallable)
-		void DamagePlayer();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -66,7 +65,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DamagePlayer();
 
-	int health;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
