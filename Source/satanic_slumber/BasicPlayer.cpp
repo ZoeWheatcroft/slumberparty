@@ -40,7 +40,7 @@ ABasicPlayer::ABasicPlayer()
 	projectileSpawnPoint = CreateDefaultSubobject<USphereComponent>(TEXT("Projectile Spwn Pnt"));
 	projectileSpawnPoint->SetupAttachment(viewModels);
 
-	projectileSpawnPoint->SetRelativeLocation(FVector(-124.63, 486.54, 1157.0f));
+	projectileSpawnPoint->SetRelativeLocation(FVector(-124.63, 486.54, 0));
 	
 	//projectileSpawnPoint->SetHiddenInGame();
 
@@ -54,6 +54,8 @@ void ABasicPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	health = 3;
+
 	InputAxis = FVector(0, 0, 0);
 	MouseInput = FVector(0, 0, 0);
 }
@@ -62,6 +64,10 @@ void ABasicPlayer::BeginPlay()
 void ABasicPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (health <= 0) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("DEAD"));
+	}
 	// AddActorLocalRotation(FRotator(0.0f, 3.0f, 0.0f));
 }
 
@@ -137,4 +143,9 @@ void ABasicPlayer::VectorAttack() {
 		FRotator pitchRotator = FRotator((365.0f / vectorAttacks) * pitchDivisor, 0, 0);
 		pitchRotation = pitchRotator.RotateVector(pitchRotation);
 	}
+}
+
+void ABasicPlayer::DamagePlayer() {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("HIT"));
+	health -= 1;
 }
