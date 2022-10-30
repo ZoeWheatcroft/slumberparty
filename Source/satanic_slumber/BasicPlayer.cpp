@@ -53,6 +53,8 @@ void ABasicPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	health = 3;
+
 	InputAxis = FVector(0, 0, 0);
 	MouseInput = FVector(0, 0, 0);
 }
@@ -61,6 +63,10 @@ void ABasicPlayer::BeginPlay()
 void ABasicPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (health <= 0) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("DEAD"));
+	}
 	// AddActorLocalRotation(FRotator(0.0f, 3.0f, 0.0f));
 }
 
@@ -124,5 +130,11 @@ void ABasicPlayer::OnFire() {
 	FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	FVector direction = player_pos - GetActorLocation();
 	proj->SetActorRelativeRotation(direction.Rotation());
+
+}
+
+void ABasicPlayer::DamagePlayer() {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("HIT"));
+	health -= 1;
 
 }

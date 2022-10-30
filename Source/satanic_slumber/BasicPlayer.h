@@ -52,6 +52,11 @@ protected:
 	void OnFire();
 
 public:	
+
+	UFUNCTION(BlueprintCallable)
+	void DamagePlayer();
+
+	int health;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
