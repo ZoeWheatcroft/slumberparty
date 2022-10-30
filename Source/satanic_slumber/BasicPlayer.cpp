@@ -14,6 +14,8 @@ ABasicPlayer::ABasicPlayer()
 	firstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("firstPersonCamera"));
 	check(firstPersonCamera != nullptr);
 
+	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow from face"));
+
 	// Attach the camera component to our capsule component.
 	firstPersonCamera->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
 
@@ -68,6 +70,8 @@ void ABasicPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ABasicPlayer::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ABasicPlayer::StopJump);
+
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ABasicPlayer::OnFire);
 }
 
 void ABasicPlayer::StartJump()
@@ -100,4 +104,17 @@ void ABasicPlayer::HorizontalAxis(float AxisValue)
 void ABasicPlayer::VerticalAxis(float AxisValue) 
 {
 	AddMovementInput(GetActorRotation().Vector(), AxisValue);
+}
+
+void ABasicPlayer::OnFire() {
+
+	FTransform SpawnLocation;
+
+	//AFloaterProjectile* proj = 
+	AActor* proj = GetWorld()->SpawnActor<AActor>(ActorToSpawn, GetActorTransform());
+	proj->SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 30.0f));
+	FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	FVector direction = player_pos - GetActorLocation();
+	proj->SetActorRelativeRotation(direction.Rotation());
+
 }

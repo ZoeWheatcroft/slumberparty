@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/ArrowComponent.h"
+
 #include "BasicPlayer.generated.h"
 
 UCLASS()
@@ -16,9 +18,16 @@ class SATANIC_SLUMBER_API ABasicPlayer : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ABasicPlayer();
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AActor>ActorToSpawn;
 	
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* firstPersonCamera;
+
+	//the arrow that points out from the player's chest, where we shoot stuff from
+	UPROPERTY(VisibleAnywhere)
+		UArrowComponent* Arrow;
 	
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	USkeletalMeshComponent* viewModels;
@@ -36,6 +45,7 @@ protected:
 	void StopJump();
 	FVector InputAxis;
 	FVector MouseInput;
+	void OnFire();
 
 public:	
 	// Called every frame

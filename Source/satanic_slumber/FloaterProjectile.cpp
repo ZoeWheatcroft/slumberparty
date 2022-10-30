@@ -35,7 +35,6 @@ void AFloaterProjectile::BeginPlay()
 void AFloaterProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	SetActorRotation(direction.Rotation());
 	//AddMovementInput(direction, 0.1f);
 }
 
