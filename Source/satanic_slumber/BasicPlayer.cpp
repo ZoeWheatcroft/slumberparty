@@ -2,6 +2,7 @@
 
 
 #include "BasicPlayer.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Math/UnrealMathUtility.h"
 
 // Sets default values
@@ -34,6 +35,13 @@ ABasicPlayer::ABasicPlayer()
 
 	// Attach the FPS mesh to the FPS camera.
 	viewModels->SetupAttachment(firstPersonCamera);
+
+	projectileSpawnPoint = CreateDefaultSubobject<USphereComponent>(TEXT("Projectile Spwn Pnt"));
+	projectileSpawnPoint->SetupAttachment(viewModels);
+
+	projectileSpawnPoint->SetRelativeLocation(FVector(-124.63, 486.54, 1157.0f));
+	
+	//projectileSpawnPoint->SetHiddenInGame();
 
 	// Disable some environmental shadows to preserve the illusion of having a single mesh.
 	viewModels->bCastDynamicShadow = false;
@@ -111,8 +119,8 @@ void ABasicPlayer::OnFire() {
 	FTransform SpawnLocation;
 
 	//AFloaterProjectile* proj = 
-	AActor* proj = GetWorld()->SpawnActor<AActor>(ActorToSpawn, GetActorTransform());
-	proj->SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 30.0f));
+	AActor* proj = GetWorld()->SpawnActor<AActor>(ActorToSpawn, projectileSpawnPoint->GetComponentLocation(), projectileSpawnPoint->GetComponentRotation());
+	proj->SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 35.0f));
 	FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	FVector direction = player_pos - GetActorLocation();
 	proj->SetActorRelativeRotation(direction.Rotation());

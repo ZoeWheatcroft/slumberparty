@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/ArrowComponent.h"
+#include "Components/SphereComponent.h"
 
 #include "BasicPlayer.generated.h"
 
@@ -21,6 +22,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<AActor>ActorToSpawn;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		USphereComponent* projectileSpawnPoint;
 	
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* firstPersonCamera;
