@@ -10,6 +10,10 @@ AWormEnemy::AWormEnemy()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+
+	spikeSpawnPnt = CreateDefaultSubobject<USphereComponent>(TEXT("SPIKE SPAWN"));
+	spikeSpawnPnt->SetRelativeLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z - 30.0f));
+
 }
 
 // Called when the game starts or when spawned
@@ -18,8 +22,8 @@ void AWormEnemy::BeginPlay()
 	Super::BeginPlay();
 	
 	moveDuration = 3.0f;
-	popDuration = 5.0f;
-	spikeInterval = 0.1f;
+	popDuration = 15.0f;
+	spikeInterval = 1.0f;
 	spikeClock = 0.0f;
 	FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	direction = player_pos - GetActorLocation();
@@ -27,8 +31,8 @@ void AWormEnemy::BeginPlay()
 
 void AWormEnemy::SpawnSpike(float DeltaTime) {
 	if (spikeClock >= spikeInterval) {
-		AActor* spike = GetWorld()->SpawnActor<AActor>(SpikeActor, GetActorTransform());
-		spike->SetActorLocation(GetActorLocation());
+		AActor* spike = GetWorld()->SpawnActor<AActor>(SpikeActor, GetActorLocation(), GetActorRotation());
+		
 		spikeClock = 0.0f;
 	}
 	spikeClock += DeltaTime;
@@ -38,13 +42,13 @@ void AWormEnemy::SpawnSpike(float DeltaTime) {
 void AWormEnemy::Move() {
 	FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	direction = player_pos - GetActorLocation();
-	AddMovementInput(direction, 1.0f);
+	AddMovementInput(direction, 0.4f);
 
 }
 
 void AWormEnemy::PopUp() {
 	
-	SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 10.0f));
+	//SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 10.0f));
 
 }
 

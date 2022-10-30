@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Components/SphereComponent.h"
+#include "Components/SceneComponent.h"
+
 #include "WormEnemy.generated.h"
 
 UCLASS()
@@ -25,8 +28,9 @@ protected:
 
 	FVector direction;
 
+	UPROPERTY(BlueprintReadOnly)
 	//are we moving or popping
-	bool moving = true;
+	bool moving = false;
 
 	//how long we've been moving for 
 	float moveClock = 0.0f;
@@ -41,8 +45,14 @@ protected:
 	float spikeClock;
 	float spikeInterval;
 
+	UPROPERTY()
+		USceneComponent* Root;
+
 public:	
 
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		USphereComponent* spikeSpawnPnt;
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<AActor>SpikeActor;
