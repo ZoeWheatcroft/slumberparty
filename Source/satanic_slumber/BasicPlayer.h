@@ -39,6 +39,9 @@ public:
 	USkeletalMeshComponent* viewModels;
 
 	const float cameraHeight = 150.0f;
+	// number of attacks made along pitch and yaw
+	// expect something more like this number^2 - 8
+	const int vectorAttacks = 8;
 
 protected:
 
@@ -56,6 +59,7 @@ protected:
 	FVector InputAxis;
 	FVector MouseInput;
 	void OnFire();
+	void VectorAttack();
 
 public:	
 	// Called every frame

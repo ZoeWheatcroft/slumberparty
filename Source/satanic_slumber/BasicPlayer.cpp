@@ -4,6 +4,7 @@
 #include "BasicPlayer.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Math/UnrealMathUtility.h"
+#include "Math/Rotator.h"
 
 // Sets default values
 ABasicPlayer::ABasicPlayer()
@@ -80,6 +81,7 @@ void ABasicPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ABasicPlayer::StopJump);
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ABasicPlayer::OnFire);
+	PlayerInputComponent->BindAction("VectorAttack", IE_Pressed, this, &ABasicPlayer::VectorAttack);
 }
 
 void ABasicPlayer::StartJump()
@@ -115,24 +117,24 @@ void ABasicPlayer::VerticalAxis(float AxisValue)
 }
 
 void ABasicPlayer::OnFire() {
-
-	FTransform SpawnLocation;
-
-	//AFloaterProjectile* proj = 
 	AActor* proj = GetWorld()->SpawnActor<AActor>(ActorToSpawn, projectileSpawnPoint->GetComponentLocation(), projectileSpawnPoint->GetComponentRotation());
 	proj->SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 35.0f));
 	FVector player_pos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	FVector direction = player_pos - GetActorLocation();
 	proj->SetActorRelativeRotation(direction.Rotation());
-
 }
 
-void ABasicPlayer::DamagePlayer() {
-
-	health -= 1;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("HITTTTTTTTTTTTT"));
-	if (health <= 0) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("DIEDDDDDDDDDDDD"));
+void ABasicPlayer::VectorAttack() {
+	FVector pitchRotation = FVector(1, 0, 0);
+	for (int pitchDivisor = 1; pitchDivisor <= vectorAttacks; pitchDivisor++) {
+		FVector yawRotation = pitchRotation;
+		for (int yawDivisor = 1; yawDivisor <= vectorAttacks; yawDivisor++) {
+			AActor* proj = GetWorld()->SpawnActor<AActor>(ActorToSpawn, GetActorLocation(), yawRotation.Rotation());
+			proj->SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 35.0f));
+			FRotator yawRotator = FRotator(0, (365.0f / vectorAttacks) * yawDivisor, 0);
+			yawRotation = yawRotator.RotateVector(yawRotation);
+		}
+		FRotator pitchRotator = FRotator((365.0f / vectorAttacks) * pitchDivisor, 0, 0);
+		pitchRotation = pitchRotator.RotateVector(pitchRotation);
 	}
-
 }
