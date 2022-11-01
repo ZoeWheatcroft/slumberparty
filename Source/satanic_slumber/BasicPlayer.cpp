@@ -54,7 +54,7 @@ void ABasicPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	health = 3;
+	health = 5;
 
 	InputAxis = FVector(0, 0, 0);
 	MouseInput = FVector(0, 0, 0);
@@ -66,7 +66,7 @@ void ABasicPlayer::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	if (health <= 0) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("DEAD"));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("DEAD"));
 	}
 	// AddActorLocalRotation(FRotator(0.0f, 3.0f, 0.0f));
 }
@@ -146,6 +146,7 @@ void ABasicPlayer::VectorAttack() {
 }
 
 void ABasicPlayer::DamagePlayer() {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("HIT"));
+	//printf("HEALTH: %d", health);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("HEALTH: %d"), health));
 	health -= 1;
 }

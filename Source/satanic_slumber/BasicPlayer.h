@@ -20,6 +20,7 @@ public:
 	// Sets default values for this character's properties
 	ABasicPlayer();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	int health = 5;
 
 	UPROPERTY(EditDefaultsOnly)
