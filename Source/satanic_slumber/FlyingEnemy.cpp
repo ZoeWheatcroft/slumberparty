@@ -47,6 +47,7 @@ void AFlyingEnemy::ShootPlayer() {
 	//FVector direction = player_pos - GetActorLocation();
 
 	FTransform SpawnLocation;
+	attacking = true;
 
 	//AFloaterProjectile* proj = 
 	AActor* proj = GetWorld()->SpawnActor<AActor>(ActorToSpawn, GetActorTransform());
